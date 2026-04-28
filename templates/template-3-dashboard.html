@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧠 Template 3: Dashboard Diário do CEO</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #fafafa; color: #37352f; padding: 40px; max-width: 900px; margin: 0 auto; }
+h1 { font-size: 32px; margin-bottom: 8px; }
+h2 { font-size: 20px; margin: 24px 0 12px; color: #2eaadc; }
+h3 { font-size: 16px; margin: 16px 0 8px; font-weight: 600; }
+p, li { font-size: 14px; line-height: 1.6; }
+ul { margin-left: 20px; margin-bottom: 12px; }
+.callout { background: #f7f6f3; border-left: 4px solid #ea6c0a; padding: 16px; margin: 16px 0; border-radius: 0 4px 4px 0; }
+.field { margin: 12px 0; }
+.field label { display: block; font-size: 12px; color: #666; margin-bottom: 4px; }
+.field input, .field textarea, .field select { width: 100%; padding: 8px 12px; border: 1px solid #e0e0e0; border-radius: 4px; font-size: 14px; }
+.field textarea { min-height: 60px; }
+.btn { display: inline-block; background: #ea6c0a; color: white; padding: 12px 24px; border-radius: 4px; text-decoration: none; font-weight: 500; margin: 8px 0; border: none; cursor: pointer; }
+.btn:hover { background: #d55f09; }
+.btn-sec { background: #666; }
+.section { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 24px; margin: 16px 0; }
+.toggle { background: #f7f6f3; border: 1px solid #e0e0e0; border-radius: 4px; margin: 8px 0; }
+.toggle-header { padding: 12px 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
+.toggle-content { padding: 0 16px 16px; }
+.priority { display: flex; align-items: center; gap: 12px; padding: 12px; background: #fff; border: 1px solid #e0e0e0; border-radius: 4px; margin: 8px 0; }
+.priority-num { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; color: white; }
+.priority-1 { background: #ea6c0a; }
+.priority-2 { background: #f97316; }
+.priority-3 { background: #fb923c; }
+.priority-info { flex: 1; }
+.priority-task { font-weight: 600; }
+.priority-time { font-size: 12px; color: #666; }
+.schedule { display: grid; grid-template-columns: 80px 1fr; gap: 8px; margin: 8px 0; }
+.schedule-time { font-size: 12px; color: #666; font-weight: 500; }
+.schedule-task { background: #f7f6f3; padding: 8px 12px; border-radius: 4px; font-size: 13px; }
+.energy-high { background: #e8f5e9; color: #2e7d32; }
+.energy-medium { background: #fff3e0; color: #ef6c00; }
+.energy-low { background: #ffebee; color: #c62828; }
+.emoji { font-size: 20px; }
+</style>
+</head>
+<body>
+
+<h1>🧠 Dashboard Diário do CEO</h1>
+<p style="color: #666; margin-bottom: 24px;">Planeje seu dia em 5 minutos. Comece cada manhã com um plano priorizado.</p>
+
+<div class="callout">
+<strong>⚡ Como usar:</strong><br>
+1. Preencha seu brain dump diário<br>
+2. Clique em "Gerar Plano do Dia"<br>
+3. Execute as 3 prioridades
+</div>
+
+<div class="section">
+<h2>📝 Brain Dump Diário</h2>
+
+<div class="field">
+<label>🎯 Objetivo #1 de hoje (o que DEVE acontecer)</label>
+<input type="text" id="objetivo1" placeholder="Ex: Enviar proposta para João">
+</div>
+
+<div class="field">
+<label>📋 Tudo pendente hoje (brain dump sem ordem)</label>
+<textarea id="tarefas" placeholder="• Responder emails&#10;• Reunião às 14h&#10;• Finalizar projeto X&#10;• Ligar para cliente&#10;• Postar stories"></textarea>
+</div>
+
+<div class="field">
+<label>⏰ Horas focadas disponíveis</label>
+<select id="horas">
+<option value="">Selecione...</option>
+<option value="2">2 horas</option>
+<option value="3">3 horas</option>
+<option value="4">4 horas</option>
+<option value="5">5 horas</option>
+<option value="6">6 horas</option>
+<option value="7">7 horas</option>
+<option value="8">8 horas</option>
+</select>
+</div>
+
+<div class="field">
+<label>🔋 Nível de energia agora</label>
+<select id="energia">
+<option value="">Selecione...</option>
+<option value="Alto">🔴 Alto — posso enfrentar o que vier</option>
+<option value="Médio">🟠 Médio — vou bem, mas preciso de pausas</option>
+<option value="Baixo">🟢 Baixo — vou devagar, foco no essencial</option>
+</select>
+</div>
+
+<div class="field">
+<label>⚠️ Urgências ou bloqueios (algo que pode interromper)</label>
+<textarea id="urgencias" placeholder="Ex: Esperando resposta de cliente antes do almoço"></textarea>
+
+<button class="btn" onclick="gerarPlano()">🚀 Gerar Plano do Dia</button>
+</div>
+</div>
+
+<div id="plano-gerado" style="display: none;">
+<div class="section">
+<h2>🎯 Top 3 Prioridades</h2>
+<div id="prioridades"></div>
+</div>
+
+<div class="section">
+<h2>📅 Horário em Blocos</h2>
+<div id="horario"></div>
+</div>
+
+<div class="section">
+<h2>📌 Tarefas para Adiar</h2>
+<div id="diferidos" style="font-size: 13px; color: #666;"></div>
+</div>
+
+<div class="section">
+<h2>🚫 Ignorar Hoje</h2>
+<div id="ignorar" style="font-size: 13px; color: #c62828;"></div>
+</div>
+
+<div class="section">
+<h2>💬 Frase de Foco</h2>
+<div id="frase-foco" style="font-size: 18px; font-weight: 600; color: #ea6c0a; padding: 16px; background: #fff3e0; border-radius: 4px;"></div>
+</div>
+</div>
+
+<div class="section">
+<h2>✅ Tarefas de Hoje</h2>
+<div class="priority">
+<span class="priority-num priority-1">1</span>
+<div class="priority-info">
+<div class="priority-task" id="task1">—</div>
+<div class="priority-time" id="time1">—</div>
+</div>
+</div>
+<div class="priority">
+<span class="priority-num priority-2">2</span>
+<div class="priority-info">
+<div class="priority-task" id="task2">—</div>
+<div class="priority-time" id="time2">—</div>
+</div>
+</div>
+<div class="priority">
+<span class="priority-num priority-3">3</span>
+<div class="priority-info">
+<div class="priority-task" id="task3">—</div>
+<div class="priority-time" id="time3">—</div>
+</div>
+</div>
+</div>
+
+<div class="section">
+<h2>📊 Histórico Diário</h2>
+<div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; text-align: center; font-size: 12px;">
+<div style="background: #f7f6f3; padding: 8px; border-radius: 4px;">
+<div style="font-weight: 600;">Seg</div>
+<div style="color: #666;">—</div>
+</div>
+<div style="background: #f7f6f3; padding: 8px; border-radius: 4px;">
+<div style="font-weight: 600;">Ter</div>
+<div style="color: #666;">—</div>
+</div>
+<div style="background: #f7f6f3; padding: 8px; border-radius: 4px;">
+<div style="font-weight: 600;">Qua</div>
+<div style="color: #666;">—</div>
+</div>
+<div style="background: #f7f6f3; padding: 8px; border-radius: 4px;">
+<div style="font-weight: 600;">Qui</div>
+<div style="color: #666;">—</div>
+</div>
+<div style="background: #f7f6f3; padding: 8px; border-radius: 4px;">
+<div style="font-weight: 600;">Sex</div>
+<div style="color: #666;">—</div>
+</div>
+<div style="background: #f7f6f3; padding: 8px; border-radius: 4px;">
+<div style="font-weight: 600;">Sáb</div>
+<div style="color: #666;">—</div>
+</div>
+<div style="background: #f7f6f3; padding: 8px; border-radius: 4px;">
+<div style="font-weight: 600;">Dom</div>
+<div style="color: #666;">—</div>
+</div>
+</div>
+</div>
+
+<script>
+function gerarPlano() {
+const objetivo = document.getElementById('objetivo1').value || '[Objetivo principal]';
+const tarefas = document.getElementById('tarefas').value || '[Lista de tarefas]';
+const horas = parseInt(document.getElementById('horas').value) || 4;
+const energia = document.getElementById('energia').value || 'Médio';
+const urgencias = document.getElementById('urgencias').value || 'Nenhuma';
+
+// Gerar prioridades
+const listaTarefas = tarefas.split('\n').filter(t => t.trim());
+const tarefasPrincipais = listaTarefas.slice(0, 3);
+const tarefasDiferidas = listaTarefas.slice(3);
+
+let htmlPrioridades = '';
+tarefasPrincipais.forEach((t, i) => {
+const tempo = energia === 'Alto' ? Math.floor(horas / 3) - 0.5 : energia === 'Baixo' ? Math.floor(horas / 3) + 0.5 : Math.floor(horas / 3);
+htmlPrioridades += `
+<div class="priority">
+<span class="priority-num priority-${i+1}">${i+1}</span>
+<div class="priority-info">
+<div class="priority-task">${t.replace(/^[•\-\*]\s*/, '')}</div>
+<div class="priority-time">${tempo}h estimado</div>
+</div>
+</div>`;
+document.getElementById(`task${i+1}`).textContent = t.replace(/^[•\-\*]\s*/, '');
+document.getElementById(`time${i+1}`).textContent = `${tempo}h estimado`;
+});
+
+document.getElementById('prioridades').innerHTML = htmlPrioridades;
+
+// Gerar horário
+let htmlHorario = '';
+let horaAtual = 9;
+const blocos = [
+{ tarefa: tarefasPrincipais[0] || objetivo, duracao: energia === 'Alto' ? 1.5 : energia === 'Baixo' ? 1 : 1.25 },
+{ tarefa: '📧 E-mails e mensagens', duracao: 0.5 },
+{ tarefa: tarefasPrincipais[1] || '[Tarefa 2]', duracao: energia === 'Alto' ? 1.5 : energia === 'Baixo' ? 1 : 1.25 },
+{ tarefa: '☕ Pausa', duracao: 0.25 },
+{ tarefa: tarefasPrincipais[2] || '[Tarefa 3]', duracao: energia === 'Alto' ? 1.5 : energia === 'Baixo' ? 1 : 1.25 },
+{ tarefa: '🍎 Almoço', duracao: 1 },
+{ tarefa: '🤝 Reuniões / Calls', duracao: 1 },
+{ tarefa: '📋 Planejamento amanhã', duracao: 0.25 }
+];
+
+blocos.forEach(b => {
+if (horaAtual <= 17) {
+htmlHorario += `
+<div class="schedule">
+<div class="schedule-time">${horaAtual}h - ${horaAtual + b.duracao}h</div>
+<div class="schedule-task">${b.tarefa.replace(/^[•\-\*]\s*/, '')}</div>
+</div>`;
+horaAtual += b.duracao;
+}
+});
+
+document.getElementById('horario').innerHTML = htmlHorario;
+
+// Diferidos
+document.getElementById('diferidos').innerHTML = tarefasDiferidas.length > 0 
+? tarefasDiferidas.map(t => `• ${t.replace(/^[•\-\*]\s*/, '')}`).join('<br>')
+: 'Nenhuma tarefa para diferir';
+
+// Ignorar
+const ignorar = listaTarefas.length > 3 ? listaTarefas[listaTarefas.length - 1] : 'Redes sociais desnecessárias';
+document.getElementById('ignorar').textContent = ignorar.replace(/^[•\-\*]\s*/, '');
+
+// Frase de foco
+const frases = {
+'Alto': 'Vou executar com intensidade. Sem desculpas.',
+'Médio': 'Foco no essencial. Uma coisa de cada vez.',
+'Baixo': 'Devagar e consistente. O que importa é não parar.'
+};
+document.getElementById('frase-foco').textContent = frases[energia] || frases['Médio'];
+
+document.getElementById('plano-gerado').style.display = 'block';
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📋 Template 1: Gerador de Propostas</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #fafafa; color: #37352f; padding: 40px; max-width: 900px; margin: 0 auto; }
+h1 { font-size: 32px; margin-bottom: 8px; }
+h2 { font-size: 20px; margin: 24px 0 12px; color: #2eaadc; }
+h3 { font-size: 16px; margin: 16px 0 8px; font-weight: 600; }
+p, li { font-size: 14px; line-height: 1.6; }
+ul { margin-left: 20px; margin-bottom: 12px; }
+.callout { background: #f7f6f3; border-left: 4px solid #ea6c0a; padding: 16px; margin: 16px 0; border-radius: 0 4px 4px 0; }
+.toggle { background: #fff; border: 1px solid #e0e0e0; border-radius: 4px; padding: 12px 16px; margin: 8px 0; cursor: pointer; }
+.toggle-title { font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.toggle-content { margin-top: 12px; padding-top: 12px; border-top: 1px solid #eee; }
+.field { margin: 12px 0; }
+.field label { display: block; font-size: 12px; color: #666; margin-bottom: 4px; }
+.field input, .field textarea { width: 100%; padding: 8px 12px; border: 1px solid #e0e0e0; border-radius: 4px; font-size: 14px; }
+.field textarea { min-height: 60px; }
+.database { background: #fff; border: 1px solid #e0e0e0; border-radius: 4px; overflow: hidden; margin: 16px 0; }
+.database-header { background: #f7f6f3; padding: 12px 16px; display: grid; grid-template-columns: 2fr 1.5fr 1fr 1fr 1fr; gap: 12px; font-weight: 600; font-size: 12px; }
+.database-row { padding: 12px 16px; display: grid; grid-template-columns: 2fr 1.5fr 1fr 1fr 1fr; gap: 12px; border-top: 1px solid #eee; font-size: 13px; }
+.status { padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; }
+.status.enviada { background: #e8f5e9; color: #2e7d32; }
+.status.negociando { background: #fff3e0; color: #ef6c00; }
+.status.fechada { background: #e3f2fd; color: #1565c0; }
+.status.perdida { background: #ffebee; color: #c62828; }
+.code-block { background: #2d2d2d; color: #f8f8f2; padding: 16px; border-radius: 4px; font-family: monospace; font-size: 12px; white-space: pre-wrap; overflow-x: auto; margin: 12px 0; }
+.btn { display: inline-block; background: #ea6c0a; color: white; padding: 12px 24px; border-radius: 4px; text-decoration: none; font-weight: 500; margin: 8px 0; }
+.btn:hover { background: #d55f09; }
+.section { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 24px; margin: 16px 0; }
+.emoji { font-size: 20px; }
+</style>
+</head>
+<body>
+
+<h1>📋 Gerador de Propostas para Clientes</h1>
+<p style="color: #666; margin-bottom: 24px;">Template pronto para usar. Preencha os dados e gere propostas em minutos.</p>
+
+<div class="callout">
+<strong>⚡ Como usar:</strong><br>
+1. Preencha os dados do cliente abaixo<br>
+2. A proposta será gerada automaticamente<br>
+3. Copie e envie ao cliente
+</div>
+
+<div class="section">
+<h2>👤 Dados do Cliente</h2>
+
+<div class="field">
+<label>Nome do cliente ou empresa</label>
+<input type="text" placeholder="Ex: João Silva / Agência X">
+</div>
+
+<div class="field">
+<label>💬 Problema principal</label>
+<textarea placeholder="Ex: Site não converte visitantes em leads"></textarea>
+</div>
+
+<div class="field">
+<label>🛠 Serviço que você oferece</label>
+<textarea placeholder="Ex: Copy para 5 páginas web + revisão"></textarea>
+</div>
+
+<div class="field">
+<label>💵 Seu preço</label>
+<input type="text" placeholder="Ex: R$1.200 ou R$800–R$1.500">
+</div>
+
+<div class="field">
+<label>📆 Prazo de entrega</label>
+<input type="text" placeholder="Ex: 2 semanas ou 10 dias úteis">
+</div>
+
+<button class="btn" onclick="gerarProposta()">🎯 Gerar Proposta</button>
+</div>
+
+<div class="section" id="proposta-gerada" style="display: none;">
+<h2>📄 Proposta Gerada</h2>
+<div id="conteudo-proposta" class="code-block" style="background: #f7f6f3; color: #37352f;"></div>
+<button class="btn" onclick="copiarProposta()">📋 Copiar Proposta</button>
+</div>
+
+<div class="section">
+<h2>📁 Historial de Propostas</h2>
+<div class="database">
+<div class="database-header">
+<div>👤 Cliente</div>
+<div>🛠 Serviço</div>
+<div>💵 Preço</div>
+<div>📊 Status</div>
+<div>📅 Data</div>
+</div>
+<div class="database-row">
+<div>—</div>
+<div>—</div>
+<div>—</div>
+<div><span class="status">Nova</span></div>
+<div>—</div>
+</div>
+</div>
+<button class="btn" style="background: #666;">➕ Adicionar Proposta</button>
+</div>
+
+<script>
+function gerarProposta() {
+const nome = document.querySelectorAll('.field input')[0].value || '[Nome do cliente]';
+const problema = document.querySelectorAll('.field textarea')[0].value || '[Problema]';
+const servico = document.querySelectorAll('.field textarea')[1].value || '[Serviço]';
+const preco = document.querySelectorAll('.field input')[1].value || '[Preço]';
+const prazo = document.querySelectorAll('.field input')[2].value || '[Prazo]';
+
+const proposta = `📋 PROPOSTA COMERCIAL
+
+Prezado(a) ${nome},
+
+Entendo que ${problema}. É exatamente por isso que existimos — para ajudar profissionais como você a resolver esse desafio de forma prática e eficiente.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🚀 SOLUÇÃO PROPOSTA
+
+${servico}
+
+Entregáveis:
+• [Entregável 1]
+• [Entregável 2]
+• [Entregável 3]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⏱ CRONOGRAMA
+
+${prazo}
+
+• Dia 1-2: Kickoff e alinhamento
+• Dia 3-5: Primeira entrega
+• Dia 6-9: Ajustes e refinamentos
+• Dia 10: Entrega final
+
+━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💰 INVESTIMENTO
+
+${preco}
+
+Por que este valor?
+[Justificativa de valor baseada no problema do cliente]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ PRÓXIMOS PASSOS
+
+1. Você approve este escopo
+2. Enviamos o contrato
+3. Iniciamos imediatamente
+
+Fico à disposição para esclarecer qualquer dúvida.
+
+Atenciosamente,
+[Seu nome]`;
+
+document.getElementById('conteudo-proposta').textContent = proposta;
+document.getElementById('proposta-gerada').style.display = 'block';
+}
+
+function copiarProposta() {
+navigator.clipboard.writeText(document.getElementById('conteudo-proposta').textContent);
+alert('Proposta copiada!');
+}
+</script>
+
+</body>
+</html>
