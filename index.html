@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>soloaisystem.com — Deja de Hacer Todo Manualmente</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #f97316;
+    --accent-dark: #c2410c;
+    --black: #000000;
+    --white: #ffffff;
+    --light-gray: #f5f5f5;
+    --mid-gray: #e5e5e5;
+    --text: #111111;
+    --text-muted: #555555;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--white);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  .top-bar {
+    background: var(--black);
+    color: var(--white);
+    text-align: center;
+    padding: 10px 1rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .hero-discount {
+    background: var(--white);
+    border-bottom: 2px solid var(--mid-gray);
+    text-align: center;
+    padding: 60px 1.5rem;
+  }
+  .hero-discount h1 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 900;
+    line-height: 1.2;
+    max-width: 800px;
+    margin: 0 auto 1.5rem;
+    text-transform: uppercase;
+  }
+  .hero-discount h1 a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .price-today {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom: 0.3rem;
+  }
+  .price-today span {
+    color: var(--accent);
+    font-size: 1.5rem;
+  }
+  .saving-tag {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+  }
+  .btn-cta {
+    display: block;
+    width: 100%;
+    background: var(--accent);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 1rem;
+    text-align: center;
+    padding: 16px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    transition: background 0.2s;
+  }
+  .btn-cta:hover { background: var(--accent-dark); }
+  .btn-cta small {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-top: 4px;
+    opacity: 0.9;
+  }
+  .main-headline {
+    background: var(--white);
+    text-align: center;
+    padding: 70px 1.5rem 50px;
+    border-bottom: 1px solid var(--mid-gray);
+  }
+  .main-headline .label {
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+  .main-headline h1 {
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 900;
+    line-height: 1.1;
+    text-transform: uppercase;
+    max-width: 900px;
+    margin: 0 auto 1.5rem;
+  }
+  .main-headline h1 a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .main-headline .subtitle {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto 2rem;
+  }
+  .video-placeholder {
+    max-width: 680px;
+    margin: 0 auto 2.5rem;
+    background: var(--black);
+    border-radius: 10px;
+    aspect-ratio: 16/9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .video-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+  }
+  .play-btn {
+    position: relative;
+    z-index: 1;
+    width: 72px; height: 72px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem;
+    color: var(--white);
+    box-shadow: 0 4px 30px rgba(249,115,22,0.5);
+  }
+  .video-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .btn-cta-inline {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 1rem;
+    text-align: center;
+    padding: 16px 36px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    transition: background 0.2s;
+  }
+  .btn-cta-inline:hover { background: var(--accent-dark); }
+  .btn-cta-inline small {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-top: 4px;
+    opacity: 0.9;
+  }
+  @media (max-width: 600px) {
+    .hero-discount h1 { font-size: 1.5rem; }
+    .main-headline h1 { font-size: 1.8rem; }
+    .cta-section h2 { font-size: 1.6rem; }
+    .btn-cta-inline, .btn-cta { font-size: 0.95rem; padding: 14px 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="top-bar">🔥 Ahora Aceptando Nuevos Miembros</div>
+<section class="hero-discount">
+  <p class="label" style="font-size:0.8rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:#555;margin-bottom:1rem;">FELICIDADES — ESTÁS OBTENIENDO NUESTRO DESCUENTO ESPECIAL</p>
+  <h1>OBTÉN MI <a href="#price">SISTEMA DE IA PLUG & PLAY</a> Y LOS TEMPLATES QUE PERMITEN A CUALQUIER SOLOPRENEUR AHORRAR 20+ HORAS POR SEMANA</h1>
+  <div style="margin: 1.5rem 0;">
+    <div class="price-today">Precio Hoy: <span>$17</span></div>
+    <div class="saving-tag">(Ahorras $80)</div>
+  </div>
+  <!-- Bloco de email removido -->
+</section>
+<section class="main-headline">
+  <div class="label">Ahora Aceptando Nuevos Miembros</div>
+  <h1>DEJA DE HACER TODO MANUALMENTE.<br><a href="#price">ESTE SISTEMA DE IA</a> HACE EL TRABAJO REPETITIVO POR TI — EN MINUTOS.</h1>
+  <p class="subtitle">Sin grabar contenido. Sin conocimientos técnicos. Sin perder horas en tareas que no generan dinero.</p>
+  <p class="video-label">▶ Haz clic en el video para saber más</p>
+  <div class="video-placeholder" id="video-section">
+    <div class="play-btn">▶</div>
+  </div>
+  <div id="video-cta" style="display:none; margin-top:2rem; text-align:center;">
+    <a href="https://pay.kiwify.com/8cvvgfP" class="btn-cta-inline" style="max-width:340px; width:100%;">
+      OBTENER ACCESO AHORA — $17
+      <small>GARANTÍA DE DEVOLUCIÓN 100% — 30 DÍAS</small>
+    </a>
+  </div>
+  <h2 style="font-size:clamp(1.4rem,3vw,2rem);font-weight:900;text-transform:uppercase;margin-bottom:1rem;">OBTÉN EL SISTEMA COMPLETO Y ÚSALO EN MENOS DE 72 HORAS</h2>
+  <p style="max-width:620px;margin:0 auto 1.5rem;color:#555;">Este es el sistema plug-and-play de 3 templates de Notion con prompts de IA integrados que automatizan las tareas que más tiempo te roban.</p>
+  <div class="price-today" style="margin-bottom:0.3rem;">Precio Hoy: $97 → <span style="color:var(--accent);font-size:1.5rem;font-weight:900;">$17</span></div>
+  <div class="saving-tag" style="margin-bottom:1.5rem;">(Ahorras $80)</div>
+  <a href="#price" class="btn-cta-inline">
+    OBTENER ACCESO INMEDIATO
+    <small>GARANTÍA DE DEVOLUCIÓN 100% — 30 DÍAS</small>
+  </a>
+</section>
+<!-- ...existing code... -->
+<script>
+  function toggleFaq(btn) {
+    const item = btn.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+  // Mostrar botão de compra após 2 minutos (compatível mobile)
+  setTimeout(function() {
+    var cta = document.getElementById('video-cta');
+    if (cta) cta.style.display = 'block';
+  }, 120000);
+</script>
+</body>
+</html>
